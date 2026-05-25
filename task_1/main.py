@@ -1,6 +1,9 @@
 import os
 import sys
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 """
     This projects sends a user prompt to OpenRouter API and returns the model's response.
@@ -16,7 +19,7 @@ import requests
         requests.exceptions.HTTPError: If the API request fails.
 """
 
-def generate_text(prompt: str) -> str:
+def create_text(prompt: str) -> str:
     
     # Get API credentials from environment variables
     api_key = os.getenv("OPENROUTER_API_KEY")
@@ -24,9 +27,9 @@ def generate_text(prompt: str) -> str:
 
     # Validate environment variables
     if not api_key:
-        raise EnvironmentError("OPENROUTER_API_KEY environment variable is not set.")
+        raise EnvironmentError("OPENROUTER_API_KEY is missing.")
     if not model_name:
-        raise EnvironmentError("MODEL_NAME environment variable is not set.")
+        raise EnvironmentError("MODEL_NAME is missing")
 
     # Send request to OpenRouter API
     response = requests.post(
@@ -63,4 +66,4 @@ if __name__ == "__main__":
     user_prompt = " ".join(sys.argv[1:])
 
     # Generate response from API and print to terminal
-    print(generate_text(user_prompt))
+    print(create_text(user_prompt))
